@@ -18,6 +18,8 @@ export default class RefreshPreviewPlugin extends Plugin {
         this.addRefreshPreviewButton();
       })
     );
+
+    this.register(this.removeRefreshPreviewButton.bind(this))
   }
 
   private onLayoutReady(): void {
@@ -42,20 +44,17 @@ export default class RefreshPreviewPlugin extends Plugin {
       return;
     }
 
-    const actionsContainer = view.containerEl.querySelector(".view-header .view-actions");
+    if (view.getMode() !== "preview") {
+      this.removeRefreshPreviewButtonFromView(view);
+      return;
+    }
 
+    const actionsContainer = this.getActionsContainer(view);
     if (!actionsContainer) {
       return;
     }
 
-    let refreshPreviewButton = actionsContainer.querySelector<HTMLButtonElement>(".refresh-preview-button");
-
-    if (view.getMode() !== "preview") {
-      if (refreshPreviewButton) {
-        actionsContainer.removeChild(refreshPreviewButton);
-      }
-      return;
-    }
+    let refreshPreviewButton = this.getRefreshPreviewButton(actionsContainer);
 
     if (refreshPreviewButton) {
       return;
@@ -68,11 +67,33 @@ export default class RefreshPreviewPlugin extends Plugin {
     setIcon(refreshPreviewButton, "refresh-cw");
 
     actionsContainer.prepend(refreshPreviewButton);
+  }
 
-    this.register(() => {
-      if (actionsContainer.contains(refreshPreviewButton)) {
-        actionsContainer.removeChild(refreshPreviewButton);
-      }
-    });
+  private getRefreshPreviewButton(actionsContainer: Element): HTMLButtonElement | null {
+    return actionsContainer.querySelector<HTMLButtonElement>(".refresh-preview-button");
+  }
+
+  private removeRefreshPreviewButton(): void {
+    for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
+      this.removeRefreshPreviewButtonFromView(leaf.view as MarkdownView);
+    }
+  }
+
+  private getActionsContainer(view: MarkdownView) {
+    return view.containerEl.querySelector(".view-header .view-actions");
+  }
+
+  private removeRefreshPreviewButtonFromView(view: MarkdownView) {
+    const actionsContainer = this.getActionsContainer(view);
+
+    if (!actionsContainer) {
+      return;
+    }
+
+    const refreshPreviewButton = this.getRefreshPreviewButton(actionsContainer);
+
+    if (refreshPreviewButton) {
+      actionsContainer.removeChild(refreshPreviewButton);
+    }
   }
 }
