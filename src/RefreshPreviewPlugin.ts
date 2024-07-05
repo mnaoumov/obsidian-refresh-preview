@@ -5,7 +5,7 @@ import {
 } from "obsidian";
 
 export default class RefreshPreviewPlugin extends Plugin {
-  public override async onload(): Promise<void> {
+  public override onload(): void {
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
     this.addCommand({
       id: "refresh-preview",
@@ -20,7 +20,7 @@ export default class RefreshPreviewPlugin extends Plugin {
     );
   }
 
-  private async onLayoutReady(): Promise<void> {
+  private onLayoutReady(): void {
     this.addRefreshPreviewButton();
   }
 
@@ -67,7 +67,7 @@ export default class RefreshPreviewPlugin extends Plugin {
     });
     setIcon(refreshPreviewButton, "refresh-cw");
 
-    actionsContainer.prepend(refreshPreviewButton)
+    actionsContainer.prepend(refreshPreviewButton);
 
     this.register(() => {
       if (actionsContainer.contains(refreshPreviewButton)) {
