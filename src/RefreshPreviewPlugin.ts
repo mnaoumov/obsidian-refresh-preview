@@ -1,4 +1,7 @@
-import { Plugin } from "obsidian";
+import {
+  MarkdownView,
+  Plugin
+} from "obsidian";
 import RefreshPreviewPluginSettings from "./RefreshPreviewPluginSettings.ts";
 import RefreshPreviewPluginSettingsTab from "./RefreshPreviewPluginSettingsTab.ts";
 
@@ -13,6 +16,11 @@ export default class RefreshPreviewPlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new RefreshPreviewPluginSettingsTab(this));
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
+    this.addCommand({
+      id: "refresh-preview",
+      name: "Refresh Preview",
+      checkCallback: this.refreshPreview.bind(this),
+    });
   }
 
   public async saveSettings(newSettings: RefreshPreviewPluginSettings): Promise<void> {
@@ -25,5 +33,17 @@ export default class RefreshPreviewPlugin extends Plugin {
 
   private async loadSettings(): Promise<void> {
     this._settings = RefreshPreviewPluginSettings.load(await this.loadData());
+  }
+
+  private refreshPreview(checking: boolean): boolean {
+    const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+    if (view?.getMode() !== "preview") {
+      return false;
+    }
+
+    if (!checking) {
+      view.previewMode.rerender(true);
+    }
+    return true;
   }
 }
