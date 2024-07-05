@@ -5,7 +5,7 @@ import {
 } from "obsidian";
 
 export default class RefreshPreviewPlugin extends Plugin {
-  private _refreshPreviewButtonClickHandler = () => this.refreshPreview(false);
+  private _refreshPreviewButtonClickHandler = (): void => void this.refreshPreview(false);
 
   public override onload(): void {
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
