@@ -5,6 +5,8 @@ import {
 } from "obsidian";
 
 export default class RefreshPreviewPlugin extends Plugin {
+  private _refreshPreviewButtonClickHandler = () => this.refreshPreview(false);
+
   public override onload(): void {
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
     this.addCommand({
@@ -62,7 +64,7 @@ export default class RefreshPreviewPlugin extends Plugin {
 
     refreshPreviewButton = createEl("button", {
       cls: "refresh-preview-button clickable-icon view-action",
-      onclick: () => this.refreshPreview(false)
+      onclick: this._refreshPreviewButtonClickHandler
     });
     setIcon(refreshPreviewButton, "refresh-cw");
 
@@ -93,6 +95,7 @@ export default class RefreshPreviewPlugin extends Plugin {
     const refreshPreviewButton = this.getRefreshPreviewButton(actionsContainer);
 
     if (refreshPreviewButton) {
+      refreshPreviewButton.removeEventListener("click", this._refreshPreviewButtonClickHandler);
       actionsContainer.removeChild(refreshPreviewButton);
     }
   }
