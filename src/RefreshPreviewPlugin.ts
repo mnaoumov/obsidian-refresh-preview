@@ -1,7 +1,8 @@
 import {
   MarkdownView,
   Plugin,
-  setIcon
+  setIcon,
+  setTooltip
 } from "obsidian";
 
 export default class RefreshPreviewPlugin extends Plugin {
@@ -67,6 +68,7 @@ export default class RefreshPreviewPlugin extends Plugin {
       onclick: this._refreshPreviewButtonClickHandler
     });
     setIcon(refreshPreviewButton, "refresh-cw");
+    setTooltip(refreshPreviewButton, "Refresh preview");
 
     actionsContainer.prepend(refreshPreviewButton);
   }
