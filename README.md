@@ -16,7 +16,7 @@ The plugin adds a `Refresh Preview` button:
 
 ![Demo](images/demo.gif)
 
-Also the plugin adds the `Refresh Preview: Refresh Preview` command to the command palette.
+Also the plugin adds the `Refresh Preview: Refresh` command to the command palette.
 
 ## Installation
 

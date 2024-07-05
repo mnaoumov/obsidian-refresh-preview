@@ -9,7 +9,7 @@ export default class RefreshPreviewPlugin extends Plugin {
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
     this.addCommand({
       id: "refresh-preview",
-      name: "Refresh Preview",
+      name: "Refresh",
       checkCallback: this.refreshPreview.bind(this)
     });
 
