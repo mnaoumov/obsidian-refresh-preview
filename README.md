@@ -6,7 +6,7 @@ It is usually useful if you have some dynamic content:
 
 ````markdown
 ```dataviewjs
-dv.span(new Date().toString("o"));
+dv.span(new Date().toString());
 ```
 ````
 
