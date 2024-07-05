@@ -19,7 +19,7 @@ export default class RefreshPreviewPlugin extends Plugin {
       })
     );
 
-    this.register(this.removeRefreshPreviewButton.bind(this))
+    this.register(this.removeRefreshPreviewButton.bind(this));
   }
 
   private onLayoutReady(): void {
@@ -79,11 +79,11 @@ export default class RefreshPreviewPlugin extends Plugin {
     }
   }
 
-  private getActionsContainer(view: MarkdownView) {
+  private getActionsContainer(view: MarkdownView): Element | null {
     return view.containerEl.querySelector(".view-header .view-actions");
   }
 
-  private removeRefreshPreviewButtonFromView(view: MarkdownView) {
+  private removeRefreshPreviewButtonFromView(view: MarkdownView): void {
     const actionsContainer = this.getActionsContainer(view);
 
     if (!actionsContainer) {
